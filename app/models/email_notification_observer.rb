@@ -4,7 +4,11 @@ class EmailNotificationObserver < ActiveRecord::Observer
   
   def after_create(model)    
   	if model.class.name == "Order"
-    	Notifier.order_created.deliver
+  	  for i in 0..5
+  	    puts "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"    	  
+    	  Notifier.delay.order_created
+    	  #Delayed::Job.enqueue MailingJob.new()
+    	end
     else
     	Notifier.address_created.deliver	
     end    
